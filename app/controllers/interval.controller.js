@@ -2,7 +2,7 @@ const Interval = require("../models/interval.model.js");
 
 //Создаем и сохраняем новый интервал
 exports.create = (req, res) => {
-
+  
   //  Валидизируем запрос
   if (!req.body) {
     res.status(400).send({
@@ -10,24 +10,26 @@ exports.create = (req, res) => {
         });
   }
 
-  // создание интервала
-  const interval = new Interval({
-    value_: req.body.value_,
-    from_: req.body.from_,
-    to_: req.body.to_,
-    user_id: req.body.user_id
-  });
+  console.log('BODY!!')
+  console.log(req.body)
 
-  console.log('interval!!!!!!!!!!!!')
-  console.log(interval)
+  req.body.forEach(element => {
+    // создание интервала
+    const interval = new Interval({
+      value_: element.value_,
+      from_: element.from_,
+      to_: element.to_,
+      user_id: element.user_id
+    });
 
-  Interval.create(interval, (err, data) => {
-    if (err)
-      res.status(500).send({
-        message:
-          err.message || "Произошла ошибка во время выполнения кода"
-      });
-    else res.send(data);
+    Interval.create(interval, (err, data) => {
+      if (err)
+        res.status(500).send({
+          message:
+            err.message || "Произошла ошибка во время выполнения кода"
+        });
+      else res.send(data);
+    }); 
   });
 
 };

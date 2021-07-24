@@ -17,7 +17,6 @@ const sql = require("./db.js");
       if (err) {
         console.log("error: ", err);
         result(err, null);
-        console.log('ОШИБКА!!!!')
         //немного бедная обработка ошибок, но на первое время хватит
         return;
       }
