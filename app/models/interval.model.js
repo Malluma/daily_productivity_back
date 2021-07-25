@@ -9,9 +9,6 @@ const sql = require("./db.js");
   }
 
   Interval.create = (newInterval, result) => {
-    console.log("CREATE")
-    console.log(newInterval)
-    console.log(`value: ${this.value_}, from: ${this.from_},to: ${this.to_}, user: ${this.user_id}`)
     sql.query("INSERT INTO intervals SET ?", newInterval, (err, res) => {
       //операция вставки из SQL
       if (err) {

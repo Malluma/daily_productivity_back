@@ -10,8 +10,7 @@ exports.create = (req, res) => {
         });
   }
 
-  console.log('BODY!!')
-  console.log(req.body)
+  let sendData = []
 
   req.body.forEach(element => {
     // создание интервала
@@ -28,9 +27,11 @@ exports.create = (req, res) => {
           message:
             err.message || "Произошла ошибка во время выполнения кода"
         });
-      else res.send(data);
+      else sendData.push(data);
     }); 
   });
+
+  res.send(sendData)
 
 };
 
