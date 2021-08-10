@@ -38,7 +38,7 @@ exports.create = (req, res) => {
 //  Найти записи по различным параметрам
 exports.read = (req, res) => {
 
-  console.log(req.query)
+  //console.log(req.query)
 
   if (!req.query) {
     res.status(400).send({
@@ -48,7 +48,8 @@ exports.read = (req, res) => {
 
   Interval.read(req.query, (err, data) => {
 
-    console.log(data);
+    console.log(data)
+
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({

@@ -86,9 +86,6 @@ const sql = require("./db.js");
 
   Interval.remove = (inner_key, result) => {
 
-    console.log("ОТЛАДКА MODEL:");
-    console.log(inner_key);
-
     sql.query("DELETE FROM intervals WHERE id_ = ?", inner_key, (err, res) => {
       if (err) {
         console.log("error: ", err); 
