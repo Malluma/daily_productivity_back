@@ -63,26 +63,47 @@ const sql = require("./db.js");
     });
   };
 
-  Interval.updateById = (id, interval, result) => {
-    sql.query('UPDATE intervals SET ? WHERE id_ = ?',
-      [interval, id], (err, res) => {
+  // Interval.updateById = (id, interval, result) => {
+  //   sql.query('UPDATE intervals SET ? WHERE id_ = ?',
+  //     [interval, id], (err, res) => {
 
-        if (err) {
+  //       if (err) {
+  //       console.log("error: ", err);
+  //       result(null, err);
+  //       return;
+  //       }
+
+  //       if (res.affectedRows == 0) {
+  //       result({ kind: "not_found" }, null);
+  //       return;
+  //       }
+
+  //       console.log("Обновлен интервал ", { id: id, ...interval });
+  //       result(null, { id: id, ...interval});
+  //     }
+  //   );
+  // }; 
+
+Interval.update = (interval, result) => {
+  sql.query('UPDATE intervals SET value = ? WHERE user_id = ? AND from_ = ?',
+    [interval.value, interval.user_id, interval.from_], (err, res) => {
+
+      if (err) {
         console.log("error: ", err);
         result(null, err);
         return;
-        }
+      }
 
-        if (res.affectedRows == 0) {
+      if (res.affectedRows == 0) {
         result({ kind: "not_found" }, null);
         return;
-        }
-
-        console.log("Обновлен интервал ", { id: id, ...interval });
-        result(null, { id: id, ...interval});
       }
-    );
-  }; 
+
+      console.log("Обновлен интервал ", { id: id, ...interval });
+      result(null, { id: id, ...interval });
+    }
+  );
+};
 
   Interval.remove = (inner_key, result) => {
 
