@@ -9,6 +9,6 @@ module.exports = app => {
   app.delete("/intervals/:intervalId", intervals.delete);
 
   //app.put("/intervals/:intervalId", intervals.update);
-  app.put("/intervals", intervals.update);
+  app.put("/intervals/update", intervals.update);
 
 };

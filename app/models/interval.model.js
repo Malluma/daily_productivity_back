@@ -85,8 +85,8 @@ const sql = require("./db.js");
   // }; 
 
 Interval.update = (interval, result) => {
-  sql.query('UPDATE intervals SET value = ? WHERE user_id = ? AND from_ = ?',
-    [interval.value, interval.user_id, interval.from_], (err, res) => {
+  sql.query('UPDATE intervals SET value_ = ? WHERE user_id = ? AND from_ = ?',
+    [interval.value_, interval.user_id, interval.from_], (err, res) => {
 
       if (err) {
         console.log("error: ", err);
@@ -99,8 +99,8 @@ Interval.update = (interval, result) => {
         return;
       }
 
-      console.log("Обновлен интервал ", { id: id, ...interval });
-      result(null, { id: id, ...interval });
+      console.log("Обновлен интервал ", { value_: interval.value_, ...interval });
+      result(null, { value_: interval.value_, ...interval });
     }
   );
 };

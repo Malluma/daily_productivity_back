@@ -62,9 +62,7 @@ exports.read = (req, res) => {
 
 // Обновление интервала по id
 exports.update = (req, res) => {
-  
-  console.log('UPDATE')
-  console.log('req.body')
+
 
   if (!req.body) {
     res.status(400).send({
