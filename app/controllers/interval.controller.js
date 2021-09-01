@@ -15,9 +15,8 @@ exports.create = (req, res) => {
   req.body.forEach(element => {
     // создание интервала
     const interval = new Interval({
-      value_: element.value_,
-      from_: element.from_,
-      to_: element.to_,
+      activity_type: element.activity_type,
+      interval_start: element.interval_start,
       user_id: element.user_id
     });
 
@@ -81,11 +80,11 @@ exports.update = (req, res) => {
         if (err) {
           if (err.kind === "not_found") {
             res.status(404).send({
-              message: `Не найден интервал ${interval.from_}.`
+              message: `Не найден интервал ${interval.interval_start}.`
             });
           } else {
             res.status(500).send({
-              message: `Error updating interval ${interval.from_}`
+              message: `Error updating interval ${interval.interval_start}`
             });
           }
         } else sendData.push(data);

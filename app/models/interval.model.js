@@ -2,9 +2,8 @@ const sql = require("./db.js");
 
  // конструктор интервала
  const Interval = function(interval) {
-    this.value_   = interval.value_;
-    this.from_    = interval.from_;
-    this.to_      = interval.to_;
+    this.activity_type   = interval.activity_type;
+    this.interval_start    = interval.interval_start;
     this.user_id = interval.user_id;
   }
 
@@ -18,8 +17,9 @@ const sql = require("./db.js");
         return;
       }
   
-      console.log("Интервал добавлен: ", { id: res.insertId, ...newInterval });
-      result(null, {id: res.insertId, ...newInterval});
+      //console.log("Интервал добавлен: ", { id: res.insertId, ...newInterval });
+      console.log("Интервал добавлен: ", newInterval);
+      result(null, newInterval);
     });
   };
 
@@ -33,23 +33,18 @@ const sql = require("./db.js");
       values.push(params.user_id);
     }
 
-    if (params.hasOwnProperty("value_")) {
-      sqlWhere = `${sqlWhere} ${(sqlWhere === '')? 'WHERE ' : "and "} value_ = ?`;
-      values.push(params.value_);
+    if (params.hasOwnProperty("activity_type")) {
+      sqlWhere = `${sqlWhere} ${(sqlWhere === '')? 'WHERE ' : "and "} activity_type = ?`;
+      values.push(params.activity_type);
     }
 
-    if (params.hasOwnProperty("from_")) {
-      sqlWhere = `${sqlWhere} ${(sqlWhere === '')? 'WHERE ' : "and "} from_ >= ?`;
-      values.push(params.from_);
-    }
-
-    if (params.hasOwnProperty("to_")) {
-      sqlWhere = `${sqlWhere} ${(sqlWhere === '')? 'WHERE ' : "and "} to_ <= ?`;
-      values.push(params.to_);
+    if (params.hasOwnProperty("interval_start")) {
+      sqlWhere = `${sqlWhere} ${(sqlWhere === '')? 'WHERE ' : "and "} interval_start >= ?`;
+      values.push(params.interval_start);
     }
     
     sql.query(`SELECT *, 
-    DATE_FORMAT(from_, '%Y-%m-%d') as day, DATE_FORMAT(from_, '%k:%i') as time, (HOUR(from_)*60 + MINUTE(from_)) as minutes FROM intervals ${sqlWhere} ORDER BY user_id, from_`, values, (err, res) => {
+    DATE_FORMAT(interval_start, '%Y-%m-%d') as day, DATE_FORMAT(interval_start, '%k:%i') as time, (HOUR(interval_start)*60 + MINUTE(interval_start)) as minutes FROM intervals ${sqlWhere} ORDER BY user_id, interval_start`, values, (err, res) => {
       //операция вставки из SQL
       if (err) {
         console.log("error: ", err);
@@ -63,30 +58,9 @@ const sql = require("./db.js");
     });
   };
 
-  // Interval.updateById = (id, interval, result) => {
-  //   sql.query('UPDATE intervals SET ? WHERE id_ = ?',
-  //     [interval, id], (err, res) => {
-
-  //       if (err) {
-  //       console.log("error: ", err);
-  //       result(null, err);
-  //       return;
-  //       }
-
-  //       if (res.affectedRows == 0) {
-  //       result({ kind: "not_found" }, null);
-  //       return;
-  //       }
-
-  //       console.log("Обновлен интервал ", { id: id, ...interval });
-  //       result(null, { id: id, ...interval});
-  //     }
-  //   );
-  // }; 
-
 Interval.update = (interval, result) => {
-  sql.query('UPDATE intervals SET value_ = ? WHERE user_id = ? AND from_ = ?',
-    [interval.value_, interval.user_id, interval.from_], (err, res) => {
+  sql.query('UPDATE intervals SET activity_type = ? WHERE user_id = ? AND interval_start = ?',
+    [interval.activity_type, interval.user_id, interval.interval_start], (err, res) => {
 
       if (err) {
         console.log("error: ", err);
@@ -99,15 +73,15 @@ Interval.update = (interval, result) => {
         return;
       }
 
-      console.log("Обновлен интервал ", { value_: interval.value_, ...interval });
-      result(null, { value_: interval.value_, ...interval });
+      console.log("Обновлен интервал ", { activity_type: interval.activity_type, ...interval });
+      result(null, { activity_type: interval.activity_type, ...interval });
     }
   );
 };
 
   Interval.remove = (inner_key, result) => {
 
-    sql.query("DELETE FROM intervals WHERE id_ = ?", inner_key, (err, res) => {
+    /*sql.query("DELETE FROM intervals WHERE id_ = ?", inner_key, (err, res) => {
       if (err) {
         console.log("error: ", err); 
         result(null, err);
@@ -122,7 +96,7 @@ Interval.update = (interval, result) => {
   
       console.log("Удален интервал с id ", inner_key);
       result(null, res);
-    });
+    }); */
   };
 
   module.exports = Interval;
