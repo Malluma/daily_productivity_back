@@ -5,10 +5,10 @@ This API will allow you to get data on the daily activity of the user from the d
 
 ## Create Database
 
-CREATE SCHEMA `daily_prod_schema` ;
-
-CREATE TABLE `daily_prod_schema`.`intervals` (
-  `activity_type` VARCHAR(45) NOT NULL,
-  `interval_start` DATETIME NOT NULL,
-  `user_id` VARCHAR(45) NOT NULL,
-   PRIMARY KEY (`interval_start`, `user_id`));
+    CREATE SCHEMA `daily_prod_schema` ;
+   
+    CREATE TABLE `daily_prod_schema`.`intervals` (
+       `activity_type` VARCHAR(45) NOT NULL,
+       `interval_start` DATETIME NOT NULL,
+       `user_id` VARCHAR(45) NOT NULL,
+        PRIMARY KEY (`interval_start`, `user_id`));
